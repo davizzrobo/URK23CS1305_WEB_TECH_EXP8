@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Language News Portal - Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=https://github.com/davizzrobo/URK23CS1305_WEB_TECH_EXP8">
+    <title>Multi-Language News Portal - Repository</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,47 +42,33 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .note {
+        .info {
             margin-top: 20px;
-            font-size: 0.9em;
-            opacity: 0.9;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🌐 Multi-Language News Portal</h1>
-        <p>This repository contains a full-stack Node.js application.</p>
+        <p><strong>⚠️ This is a Node.js Backend Application</strong></p>
         <div class="spinner"></div>
-        <p>The live application is hosted on Render.</p>
-        <p class="note">
-            <strong>Repository:</strong> 
-            <a href="https://github.com/davizzrobo/URK23CS1305_WEB_TECH_EXP8" target="_blank">
-                View Source Code on GitHub
-            </a>
-        </p>
-        <p class="note">
-            <strong>Live App:</strong> 
-            <span id="render-link">Deploy on Render to get your live URL</span>
-        </p>
-        <p class="note" style="margin-top: 30px;">
-            📚 See <a href="./README.md">README.md</a> for setup instructions<br>
-            🚀 See <a href="./DEPLOYMENT.md">DEPLOYMENT.md</a> for deployment guide
+        <p>Redirecting to GitHub repository...</p>
+        
+        <div class="info">
+            <p>📦 <strong>Repository:</strong> 
+                <a href="https://github.com/davizzrobo/URK23CS1305_WEB_TECH_EXP8">View on GitHub</a>
+            </p>
+            <p>🚀 <strong>Live App:</strong> Deployed on Render (check README for URL)</p>
+            <p>📚 <strong>Tech Stack:</strong> Node.js • Express • MongoDB • React</p>
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">
+            This repository contains a full-stack application that runs on Render,<br>
+            not as a static GitHub Pages site.
         </p>
     </div>
-    
-    <script>
-        // If you have deployed on Render, update this URL
-        const renderUrl = 'YOUR_RENDER_URL_HERE';
-        
-        // Auto-redirect after 3 seconds if URL is configured
-        if (renderUrl && renderUrl !== 'YOUR_RENDER_URL_HERE') {
-            setTimeout(() => {
-                window.location.href = renderUrl;
-            }, 3000);
-            document.getElementById('render-link').innerHTML = 
-                `Redirecting to <a href="${renderUrl}" style="color: #ffd700;">${renderUrl}</a> in 3 seconds...`;
-        }
-    </script>
 </body>
 </html>
