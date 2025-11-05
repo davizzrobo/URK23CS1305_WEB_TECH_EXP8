@@ -51,7 +51,7 @@
 
   <!-- React via CDN not required for this small page; we'll use plain JS to keep it simple and runnable without bundling -->
   <script>
-    const apiBase = location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? 'http://localhost:5000/api/news' : '/api/news';
+    const apiBase = '/api/news';
 
     async function fetchNews() {
       const lang = document.getElementById('languageSelect').value;

@@ -14,6 +14,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve static files from the client folder
+app.use(express.static('client'));
+
 app.use('/api/news', newsRoutes);
 
 app.get('/', (req, res) => {
