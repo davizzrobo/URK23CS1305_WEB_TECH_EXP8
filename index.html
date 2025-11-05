@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Language News Portal - Redirecting...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { margin: 0 0 20px 0; }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .note {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Multi-Language News Portal</h1>
+        <p>This repository contains a full-stack Node.js application.</p>
+        <div class="spinner"></div>
+        <p>The live application is hosted on Render.</p>
+        <p class="note">
+            <strong>Repository:</strong> 
+            <a href="https://github.com/davizzrobo/URK23CS1305_WEB_TECH_EXP8" target="_blank">
+                View Source Code on GitHub
+            </a>
+        </p>
+        <p class="note">
+            <strong>Live App:</strong> 
+            <span id="render-link">Deploy on Render to get your live URL</span>
+        </p>
+        <p class="note" style="margin-top: 30px;">
+            📚 See <a href="./README.md">README.md</a> for setup instructions<br>
+            🚀 See <a href="./DEPLOYMENT.md">DEPLOYMENT.md</a> for deployment guide
+        </p>
+    </div>
+    
+    <script>
+        // If you have deployed on Render, update this URL
+        const renderUrl = 'YOUR_RENDER_URL_HERE';
+        
+        // Auto-redirect after 3 seconds if URL is configured
+        if (renderUrl && renderUrl !== 'YOUR_RENDER_URL_HERE') {
+            setTimeout(() => {
+                window.location.href = renderUrl;
+            }, 3000);
+            document.getElementById('render-link').innerHTML = 
+                `Redirecting to <a href="${renderUrl}" style="color: #ffd700;">${renderUrl}</a> in 3 seconds...`;
+        }
+    </script>
+</body>
+</html>
