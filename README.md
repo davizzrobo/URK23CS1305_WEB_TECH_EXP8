@@ -53,7 +53,14 @@ This demo stores a `language` field per article and filters by it on the server.
 
 ## Deployment
 
-- For deploying full-stack on services like Render, create two services (web service for server, static site for client) or serve the static files from Express (e.g., `app.use(express.static('client'))`) and set the production `MONGODB_URI` in the service environment.
+**📘 Complete deployment guide available in [DEPLOYMENT.md](./DEPLOYMENT.md)**
+
+Quick overview:
+1. **MongoDB Atlas** (free tier) - cloud database
+2. **Render.com** (free tier) - hosting platform
+3. Auto-deploy on git push to `main` branch
+
+For detailed step-by-step instructions with screenshots, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## License
 
