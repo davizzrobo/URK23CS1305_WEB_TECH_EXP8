@@ -1,0 +1,23 @@
+{
+  "name": "multi-language-news-portal",
+  "version": "1.0.0",
+  "description": "Full-stack Multi-Language News Aggregation Portal (Express + MongoDB + React CDN)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

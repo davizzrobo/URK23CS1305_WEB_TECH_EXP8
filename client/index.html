@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi-Language News Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; }
+    .controls { margin: 10px 0; }
+    .article { border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; border-radius:6px; }
+    .admin { margin-top: 20px; padding: 12px; border:1px dashed #aaa; }
+    label { display:block; margin-top:8px; }
+    button { margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Multi-Language News Portal</h1>
+      <div>
+        <select id="languageSelect">
+          <option value="">All</option>
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="controls">
+      <input id="searchInput" placeholder="Search headlines or descriptions" style="width:60%" />
+      <button id="searchBtn">Search</button>
+      <button id="seedBtn">Seed Demo Data</button>
+      <button id="refreshBtn">Refresh</button>
+    </div>
+
+    <div id="list"></div>
+
+    <div class="admin">
+      <h3>Admin: Add News</h3>
+      <label>Title <input id="title" style="width:100%" /></label>
+      <label>Description <textarea id="description" style="width:100%"></textarea></label>
+      <label>Language
+        <select id="langAdmin"><option value="en">English</option><option value="hi">Hindi</option></select>
+      </label>
+      <label>Source <input id="source" /></label>
+      <button id="addBtn">Add News</button>
+    </div>
+  </div>
+
+  <!-- React via CDN not required for this small page; we'll use plain JS to keep it simple and runnable without bundling -->
+  <script>
+    const apiBase = location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? 'http://localhost:5000/api/news' : '/api/news';
+
+    async function fetchNews() {
+      const lang = document.getElementById('languageSelect').value;
+      const q = document.getElementById('searchInput').value.trim();
+      const params = new URLSearchParams();
+      if (lang) params.append('language', lang);
+      if (q) params.append('q', q);
+      const url = apiBase + '?' + params.toString();
+      const res = await fetch(url);
+      const json = await res.json();
+      return json.data || [];
+    }
+
+    function renderList(items) {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      if (!items.length) { list.innerHTML = '<p>No articles found.</p>'; return; }
+      items.forEach(it => {
+        const div = document.createElement('div');
+        div.className = 'article';
+        div.innerHTML = `<strong>${escapeHtml(it.title)}</strong>
+          <div style="font-size:0.9em;color:#555">${escapeHtml(it.source || '')} — ${new Date(it.date).toLocaleString()}</div>
+          <p>${escapeHtml(it.description || '')}</p>
+          <div><em>Language: ${escapeHtml(it.language || '')}</em></div>
+          <div style="margin-top:8px"><button data-id="${it._id}" class="delBtn">Delete</button></div>`;
+        list.appendChild(div);
+      });
+      document.querySelectorAll('.delBtn').forEach(b => b.addEventListener('click', onDelete));
+    }
+
+    function escapeHtml(s) { if (!s) return ''; return s.replace(/&/g, '&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    async function refresh() {
+      const items = await fetchNews();
+      renderList(items);
+    }
+
+    async function onAdd() {
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const language = document.getElementById('langAdmin').value;
+      const source = document.getElementById('source').value.trim();
+      if (!title) return alert('Title required');
+      const res = await fetch(apiBase + '/add', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ title, description, language, source }) });
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('source').value = '';
+        refresh();
+      } else alert(json.message || 'Error');
+    }
+
+    async function onDelete(e) {
+      const id = e.target.dataset.id;
+      if (!confirm('Delete this article?')) return;
+      const res = await fetch(apiBase + '/delete/' + id, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) refresh(); else alert(json.message || 'Error');
+    }
+
+    async function onSeed() {
+      if (!confirm('Seed demo data? This will add sample records.')) return;
+      const res = await fetch(apiBase + '/seed', { method: 'POST' });
+      const json = await res.json();
+      if (json.success) refresh(); else alert('Seed failed');
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', refresh);
+    document.getElementById('refreshBtn').addEventListener('click', refresh);
+    document.getElementById('languageSelect').addEventListener('change', refresh);
+    document.getElementById('addBtn').addEventListener('click', onAdd);
+    document.getElementById('seedBtn').addEventListener('click', onSeed);
+
+    // initial load
+    refresh();
+  </script>
+</body>
+</html>
