@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for linting/formatting issues (optional)
+        run: echo "No linter configured yet - add eslint or prettier in package.json if needed"
+
+      - name: Run tests (if any)
+        run: npm test --if-present
+
+      - name: Build check (ensure server can load)
+        run: node -c server.js
+
+  # Uncomment and configure if you want auto-deploy to Render or similar on main push
+  # deploy:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Trigger Render Deploy
+  #       run: |
+  #         curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
