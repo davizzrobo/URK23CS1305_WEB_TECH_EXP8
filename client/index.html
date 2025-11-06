@@ -5,51 +5,353 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Multi-Language News Portal</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .container { max-width: 900px; margin: 0 auto; }
-    header { display:flex; justify-content:space-between; align-items:center; }
-    .controls { margin: 10px 0; }
-    .article { border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; border-radius:6px; }
-    .admin { margin-top: 20px; padding: 12px; border:1px dashed #aaa; }
-    label { display:block; margin-top:8px; }
-    button { margin-top:8px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    h1 {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    
+    .language-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .language-selector label {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    select {
+      padding: 10px 15px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    select:hover {
+      border-color: #764ba2;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+    
+    .controls {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      backdrop-filter: blur(10px);
+    }
+    
+    input[type="text"] {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 18px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    #searchBtn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    #searchBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    #seedBtn {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+    }
+    
+    #seedBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+    }
+    
+    #refreshBtn {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+    }
+    
+    #refreshBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+    }
+    
+    #list {
+      display: grid;
+      gap: 15px;
+    }
+    
+    .article {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border-left: 4px solid #667eea;
+    }
+    
+    .article:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    
+    .article strong {
+      color: #333;
+      font-size: 1.3em;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .article-meta {
+      font-size: 0.85em;
+      color: #666;
+      margin: 8px 0;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .article p {
+      color: #555;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    
+    .article em {
+      display: inline-block;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-style: normal;
+      margin-top: 10px;
+    }
+    
+    .delBtn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 8px 18px;
+      margin-top: 10px;
+    }
+    
+    .delBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+    }
+    
+    .admin {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+      backdrop-filter: blur(10px);
+      border: 2px dashed #667eea;
+    }
+    
+    .admin h3 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .admin label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .admin input, .admin textarea, .admin select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    
+    .admin input:focus, .admin textarea:focus, .admin select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .admin textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    #addBtn {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+      margin-top: 15px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+    }
+    
+    #addBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(56, 239, 125, 0.4);
+    }
+    
+    .no-articles {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      color: #666;
+      font-size: 1.1em;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: white;
+      font-size: 1.2em;
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      h1 {
+        font-size: 1.5em;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      input[type="text"] {
+        width: 100%;
+      }
+      
+      button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Multi-Language News Portal</h1>
-      <div>
+      <h1>🌐 Multi-Language News Portal</h1>
+      <div class="language-selector">
+        <label for="languageSelect">🌍 Filter:</label>
         <select id="languageSelect">
-          <option value="">All</option>
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
+          <option value="">All Languages</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="hi">🇮🇳 Hindi</option>
         </select>
       </div>
     </header>
 
     <div class="controls">
-      <input id="searchInput" placeholder="Search headlines or descriptions" style="width:60%" />
+      <input id="searchInput" type="text" placeholder="🔍 Search headlines or descriptions..." />
       <button id="searchBtn">Search</button>
-      <button id="seedBtn">Seed Demo Data</button>
-      <button id="refreshBtn">Refresh</button>
+      <button id="seedBtn">🌱 Seed Demo Data</button>
+      <button id="refreshBtn">🔄 Refresh</button>
     </div>
 
     <div id="list"></div>
 
     <div class="admin">
-      <h3>Admin: Add News</h3>
-      <label>Title <input id="title" style="width:100%" /></label>
-      <label>Description <textarea id="description" style="width:100%"></textarea></label>
-      <label>Language
-        <select id="langAdmin"><option value="en">English</option><option value="hi">Hindi</option></select>
-      </label>
-      <label>Source <input id="source" /></label>
-      <button id="addBtn">Add News</button>
+      <h3>✏️ Admin: Add News Article</h3>
+      <label>📰 Title *</label>
+      <input id="title" type="text" placeholder="Enter news title..." />
+      
+      <label>📝 Description</label>
+      <textarea id="description" placeholder="Enter news description..."></textarea>
+      
+      <label>🌍 Language</label>
+      <select id="langAdmin">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+      </select>
+      
+      <label>📡 Source</label>
+      <input id="source" type="text" placeholder="e.g., BBC News, NDTV, Reuters..." />
+      
+      <button id="addBtn">➕ Add News Article</button>
     </div>
   </div>
 
-  <!-- React via CDN not required for this small page; we'll use plain JS to keep it simple and runnable without bundling -->
   <script>
     const apiBase = '/api/news';
 
@@ -68,23 +370,44 @@
     function renderList(items) {
       const list = document.getElementById('list');
       list.innerHTML = '';
-      if (!items.length) { list.innerHTML = '<p>No articles found.</p>'; return; }
+      if (!items.length) {
+        list.innerHTML = '<div class="no-articles">📭 No articles found. Click "Seed Demo Data" to add sample articles!</div>';
+        return;
+      }
       items.forEach(it => {
         const div = document.createElement('div');
         div.className = 'article';
-        div.innerHTML = `<strong>${escapeHtml(it.title)}</strong>
-          <div style="font-size:0.9em;color:#555">${escapeHtml(it.source || '')} — ${new Date(it.date).toLocaleString()}</div>
+        const date = new Date(it.date);
+        const formattedDate = date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        div.innerHTML = `
+          <strong>${escapeHtml(it.title)}</strong>
+          <div class="article-meta">
+            <span>📡 ${escapeHtml(it.source || 'Unknown Source')}</span>
+            <span>📅 ${formattedDate}</span>
+          </div>
           <p>${escapeHtml(it.description || '')}</p>
-          <div><em>Language: ${escapeHtml(it.language || '')}</em></div>
-          <div style="margin-top:8px"><button data-id="${it._id}" class="delBtn">Delete</button></div>`;
+          <em>🌍 ${it.language === 'hi' ? 'हिंदी (Hindi)' : 'English'}</em>
+          <div><button data-id="${it._id}" class="delBtn">🗑️ Delete</button></div>
+        `;
         list.appendChild(div);
       });
       document.querySelectorAll('.delBtn').forEach(b => b.addEventListener('click', onDelete));
     }
 
-    function escapeHtml(s) { if (!s) return ''; return s.replace(/&/g, '&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function escapeHtml(s) {
+      if (!s) return '';
+      return s.replace(/&/g, '&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
 
     async function refresh() {
+      const list = document.getElementById('list');
+      list.innerHTML = '<div class="loading">⏳ Loading articles...</div>';
       const items = await fetchNews();
       renderList(items);
     }
@@ -94,30 +417,47 @@
       const description = document.getElementById('description').value.trim();
       const language = document.getElementById('langAdmin').value;
       const source = document.getElementById('source').value.trim();
-      if (!title) return alert('Title required');
-      const res = await fetch(apiBase + '/add', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ title, description, language, source }) });
+      if (!title) return alert('⚠️ Title is required!');
+      const res = await fetch(apiBase + '/add', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ title, description, language, source })
+      });
       const json = await res.json();
       if (json.success) {
         document.getElementById('title').value = '';
         document.getElementById('description').value = '';
         document.getElementById('source').value = '';
+        alert('✅ Article added successfully!');
         refresh();
-      } else alert(json.message || 'Error');
+      } else {
+        alert('❌ Error: ' + (json.message || 'Failed to add article'));
+      }
     }
 
     async function onDelete(e) {
       const id = e.target.dataset.id;
-      if (!confirm('Delete this article?')) return;
+      if (!confirm('🗑️ Are you sure you want to delete this article?')) return;
       const res = await fetch(apiBase + '/delete/' + id, { method: 'DELETE' });
       const json = await res.json();
-      if (json.success) refresh(); else alert(json.message || 'Error');
+      if (json.success) {
+        alert('✅ Article deleted successfully!');
+        refresh();
+      } else {
+        alert('❌ Error: ' + (json.message || 'Failed to delete article'));
+      }
     }
 
     async function onSeed() {
-      if (!confirm('Seed demo data? This will add sample records.')) return;
+      if (!confirm('🌱 Seed demo data? This will add 4 sample news articles.')) return;
       const res = await fetch(apiBase + '/seed', { method: 'POST' });
       const json = await res.json();
-      if (json.success) refresh(); else alert('Seed failed');
+      if (json.success) {
+        alert('✅ Demo data seeded successfully!');
+        refresh();
+      } else {
+        alert('❌ Seed failed: ' + (json.message || 'Unknown error'));
+      }
     }
 
     document.getElementById('searchBtn').addEventListener('click', refresh);
@@ -126,7 +466,7 @@
     document.getElementById('addBtn').addEventListener('click', onAdd);
     document.getElementById('seedBtn').addEventListener('click', onSeed);
 
-    // initial load
+    // Initial load
     refresh();
   </script>
 </body>
